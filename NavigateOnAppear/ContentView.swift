@@ -7,10 +7,39 @@
 
 import SwiftUI
 
+struct SecondView: View {
+    var body: some View {
+        Text("Second")
+            .navigationBarTitle("Second", displayMode: .inline)
+            .onAppear(perform: {
+                print("Second: onAppear")
+            })
+    }
+}
+struct FirstView: View {
+    @State var linkActive = false
+
+    
+    var body: some View {
+        NavigationLink(destination: SecondView(), isActive: $linkActive) {
+            Text("Goto second")
+        }
+        .navigationBarTitle("First", displayMode: .inline)
+        .onAppear(perform: {
+            print("First: onAppear")
+            linkActive = true
+        })
+    }
+}
+
 struct ContentView: View {
     var body: some View {
-        Text("Hello, world!")
-            .padding()
+        NavigationView {
+            NavigationLink(destination: FirstView()) {
+                Text("Goto first")
+            }
+        }
+        .navigationViewStyle(StackNavigationViewStyle())
     }
 }
 
